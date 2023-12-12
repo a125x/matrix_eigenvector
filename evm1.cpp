@@ -5,18 +5,6 @@
 #include "matrix_solver.h"
 #include "matrix_reader.h"
 
-//printing any matrix
-void print_mat(double *A, int n, int m, int p)
-{
-    for (int i = 0; i < n && i < p; i++)
-    {
-        for (int j = 0; j < m && j < p; j++)
-            printf("%10.3e ", A[i * m + j]);
-
-        printf("\n");
-    }
-}
-
 //sum of the main diagonal - sum of the eigenvector
 double res_ctr1(double *A, double *X, int n)
 {
@@ -52,6 +40,8 @@ int main(int argc, char *argv[])
     //creating matrix a and eigenvector x
     A = new double[n * n];
     X = new double[n];
+    for (int i = 0; i < n; ++i)
+        X[i] = 1;
 
     //memory allocation error
     if (!A || !X)

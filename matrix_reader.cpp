@@ -2,6 +2,18 @@
 #include "matrix_reader.h"
 #include "matrix_solver.h"
 
+//printing any matrix
+void print_mat(double *A, int n, int m, int p)
+{
+    for (int i = 0; i < n && i < p; i++)
+    {
+        for (int j = 0; j < m && j < p; j++)
+            printf("%10.3e ", A[i * m + j]);
+
+        printf("\n");
+    }
+}
+
 //function to create element of matrix 
 double f(int i, int j, int n, int mode)
 {
