@@ -21,14 +21,21 @@ double f_abs(double a)
 
 void mult(double *A, double *X, int n)
 {
-    double temp = 0;
+    double temp = 0.;
+
+    double *temp_X = new double[n];
+    for (int i = 0; i < n; i++)
+            temp_X[i] = X[i];
 
     for (int i = 0; i < n; i++)
     {
-        temp = 0;
+        temp = 0.;
 
         for (int j = 0; j < n; j++)
-            temp += A[i*n+j] * X[j];       
+        {
+            temp += A[i*n+j] * temp_X[j];
+            //cout << "i " << i << " j " <<j << " a "<< A[i*n+j]<<" x "<<X[j] << " temp " << temp << endl;
+        }   
         
         X[i] = temp;
     }
@@ -55,21 +62,28 @@ int findEigenvector(double *A, double *X, int n, double e)
     {
         for (int i = 0; i < n; i++)
             prev_X[i] = X[i];
+
+        //cout << "\n x prev mult";
+        //print_mat(X, 1, n, 5);
         
         for (int i = 0; i < 1; i++)
             mult(A, X, n);
-            
+        
+        //cout << "\n x prev del";
+        //print_mat(X, 1, n, 5);
+
         if (del(X, norm1(X, n), n))
             return 1;
         
         error = f_abs(findEigenvalue(A, X, n) - findEigenvalue(A, prev_X, n));
 
+        /*
         cout << "\nx";
         print_mat(X, 1, n, 5);
         cout << "prevx ";
         print_mat(prev_X, 1, n, 5);
         cout << "err   " << error << "  e " << e << '\n';
-
+        */
     }
 
     return 0;
