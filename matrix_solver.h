@@ -7,6 +7,8 @@
 double f_abs(double a);
 
 //solving matrix a with values b and writing results to x
-int solve(double *A, double *X, int n, int e);
+int findEigenvector(double *A, double *X, int n, double e);
+
+double findEigenvalue(double *A, double *X, int n);
 
 #endif

@@ -8,12 +8,28 @@
 //sum of the main diagonal - sum of the eigenvector
 double res_ctr1(double *A, double *X, int n)
 {
-    return 0.0;
+    double trace_sum = 0;
+    double eigen_sum = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        trace_sum += A[i*n+i];
+        eigen_sum += X[i];
+    }
+
+    return f_abs(trace_sum - eigen_sum);
 }
 
 double res_ctr2(double *A, double *X, int n)
 {
-    return 0.0; 
+    double eigen_sum = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        eigen_sum += X[i]*X[i];
+    }
+
+    return f_abs(n*n - eigen_sum); 
 }
 
 int main(int argc, char *argv[])
@@ -23,13 +39,14 @@ int main(int argc, char *argv[])
 
     //n is matrix dimentions, m is amount of outputs of matrix,
     //e is accuracy of the solution and k is an input formula number
-    int n = 0, k = 0, m = 0, e = 0;
+    int n = 0, k = 0, m = 0;
+    float e = 0.0;
 
     //checking if input data are correct
     if (!((argc == 5 || argc == 6) 
         && (sscanf(argv[1], "%d", &n) == 1) && (n > 0)
         && (sscanf(argv[2], "%d", &m) == 1)
-        && (sscanf(argv[3], "%d", &e) == 1)
+        && (sscanf(argv[3], "%e", &e) == 1)
         && (sscanf(argv[4], "%d", &k) == 1)
         && ((k == 0 && argc == 6) || (k > 0 && k <= 4 && argc == 5))))
     {
@@ -81,10 +98,12 @@ int main(int argc, char *argv[])
     
     //solving matrix
     auto start = std::chrono::high_resolution_clock::now();
-    res = solve(A, X, n, e);
+    res = findEigenvector(A, X, n, e);
     auto end = std::chrono::high_resolution_clock::now();
     auto t1 = std::chrono::duration<double, std::milli>(end - start).count();
     
+    double eigenvalue = findEigenvalue(A, X, n);
+
     //printing error if we can't find the solution
     if (res)
     {
@@ -118,16 +137,10 @@ int main(int argc, char *argv[])
         }
     }    
    
-    //counting all the resids and norms
-    double resid1, resid2 = 0.;
-
-    resid1 = res_ctr1(A, X, n);
-    resid2 = res_ctr2(A, X, n);
-
     //printing all the necessary stuff
     for (int i = 0; i < m; i++)
         printf("-----------");
-    printf ("\nres1 = %e, res2 = %e, \ntime = %.5f; \nn = %d, m = %d, e = %d, k = %d.\n", resid1, resid2, t1, n, m, e, k);
+    printf ("\neigenvalue = %e, \ntime = %.5f; \nn = %d, m = %d, e = %e, k = %d.\n", eigenvalue, t1, n, m, e, k);
 
     //cleaning up the memory
     delete [] A;
