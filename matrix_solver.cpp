@@ -66,7 +66,7 @@ int findEigenvector(double *A, double *X, int n, double e)
         //cout << "\n x prev mult";
         //print_mat(X, 1, n, 5);
         
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 10; i++)
             mult(A, X, n);
         
         //cout << "\n x prev del";
