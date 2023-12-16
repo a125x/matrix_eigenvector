@@ -5,33 +5,6 @@
 #include "matrix_solver.h"
 #include "matrix_reader.h"
 
-//sum of the main diagonal - sum of the eigenvector
-double res_ctr1(double *A, double *X, int n)
-{
-    double trace_sum = 0;
-    double eigen_sum = 0;
-
-    for (int i = 0; i < n; i++)
-    {
-        trace_sum += A[i*n+i];
-        eigen_sum += X[i];
-    }
-
-    return f_abs(trace_sum - eigen_sum);
-}
-
-double res_ctr2(double *A, double *X, int n)
-{
-    double eigen_sum = 0;
-
-    for (int i = 0; i < n; i++)
-    {
-        eigen_sum += X[i]*X[i];
-    }
-
-    return f_abs(n*n - eigen_sum); 
-}
-
 int main(int argc, char *argv[])
 {
     //A is a matrix, X is an eigenvector 
