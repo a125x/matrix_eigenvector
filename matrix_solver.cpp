@@ -1,9 +1,10 @@
 #include "matrix_solver.h"
+#include "math.h"
 #include <vector>
 #include <iostream>
-#include "matrix_reader.h"
 using namespace std;
 
+//calculating norm
 double norm1(double *vec, int n) 
 {
     double res = 0;
@@ -37,7 +38,7 @@ void mult(double *A, double *X, int n)
         X[i] = temp;
     }
 
-    delete[] temp_X;
+    delete [] temp_X;
 }
 
 int del(double *X, double d, int n)
@@ -66,11 +67,14 @@ int findEigenvector(double *A, double *X, int n, double e)
             mult(A, X, n);
         
         if (del(X, norm1(X, n), n))
+            delete [] prev_X;
             return 1;
         
         error = f_abs(findEigenvalue(A, X, n) - findEigenvalue(A, prev_X, n));
     }
     while (error > e);
+
+    delete [] prev_X;
     
     return 0;
 }
@@ -84,7 +88,7 @@ double findEigenvalue(double *A, double *X, int n)
     mult(A, temp_X, n);
     double res = norm1(temp_X, n) / norm1(X, n);
     
-    delete[] temp_X;
+    delete [] temp_X;
 
     return res;
 }
