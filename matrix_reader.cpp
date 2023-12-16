@@ -27,7 +27,7 @@ double f(int i, int j, int n, int mode)
       case 2: 
           return i == j ? 2 : f_abs(i - j) == 1 ? -1 : 0;
       case 3: 
-          return i == (j < n) ? 1 : j == n ? i : i == n ? j : 0;
+          return (i == j) and (j < n) ? 1 : j == n ? i : i == n ? j : 0;
       case 4:
           return 1. / (i + j - 1);
       default:

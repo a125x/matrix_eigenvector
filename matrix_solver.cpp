@@ -1,16 +1,16 @@
 #include "matrix_solver.h"
-#include "math.h"
 #include <vector>
 #include <iostream>
+#include "math.h"
+#include "matrix_reader.h"
 using namespace std;
 
-//calculating norm
 double norm1(double *vec, int n) 
 {
     double res = 0;
 
     for(int i = 0; i < n; i++) 
-        res += f_abs(vec[i]) * f_abs(vec[i]);
+        res += f_abs(vec[i])*f_abs(vec[i]);
     
     return sqrt(res);
 }
@@ -23,8 +23,8 @@ double f_abs(double a)
 void mult(double *A, double *X, int n)
 {
     double temp = 0.;
-    double *temp_X = new double[n];
 
+    double *temp_X = new double[n];
     for (int i = 0; i < n; i++)
             temp_X[i] = X[i];
 
@@ -67,9 +67,11 @@ int findEigenvector(double *A, double *X, int n, double e)
             mult(A, X, n);
         
         if (del(X, norm1(X, n), n))
+        {
             delete [] prev_X;
             return 1;
-        
+        }
+
         error = f_abs(findEigenvalue(A, X, n) - findEigenvalue(A, prev_X, n));
     }
     while (error > e);
@@ -82,10 +84,12 @@ int findEigenvector(double *A, double *X, int n, double e)
 double findEigenvalue(double *A, double *X, int n)
 {
     double *temp_X = new double[n];
+
     for (int i = 0; i < n; i++)
             temp_X[i] = X[i];
 
     mult(A, temp_X, n);
+    
     double res = norm1(temp_X, n) / norm1(X, n);
     
     delete [] temp_X;
