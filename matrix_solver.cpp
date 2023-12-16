@@ -77,16 +77,14 @@ int findEigenvector(double *A, double *X, int n, double e)
 
 double findEigenvalue(double *A, double *X, int n)
 {
-    double *temp_A = A;
     double *temp_X = new double[n];
     for (int i = 0; i < n; i++)
             temp_X[i] = X[i];
 
-    mult(temp_A, temp_X, n);
+    mult(A, temp_X, n);
     double res = norm1(temp_X, n) / norm1(X, n);
     
     delete[] temp_X;
-    delete[] temp_A;
 
     return res;
 }
